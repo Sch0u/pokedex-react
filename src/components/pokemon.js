@@ -1,34 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import Card from '../components/card';
+import { Card } from './card';
 
 export const Pokemons = () => {
     const [pokemons, setPokemons] = useState([]);
 
     useEffect(() => {
         async function loadPokemons() {
-            var response = await fetch('https://pokeapi.co/api/v2/pokemon?limit=151');
+            const response = await fetch('https://pokeapi.co/api/v2/pokemon?limit=151');
 
-            var jsonData = await response.json();
+            const jsonData = await response.json();
 
-            var pokemons = jsonData.results 
-
-            jsonData.results.forEach(async (pokemon, index) => {
-                var res = await fetch(pokemon.url);
-            
-                var resJsonData = await res.json();
-      
-                pokemons[index].abilities = resJsonData.abilities;
-      
-              });
-
-            return pokemons;
+            return jsonData.results;
         }
 
-        loadPokemons().then(res => setPokemons(res));
+        loadPokemons().then(data => {
+            setPokemons(data);
+        });
     }, []);
 
     function addTofav(pokemon) {
-        return null
+        return null;
     }
 
     return (
@@ -42,18 +33,15 @@ export const Pokemons = () => {
                     {pokemons.map((pokemon, index) => (
                         <div className="card" key={index}>
                             <div className="card-body">
-                            <a href={pokemon.url}>
-                                <img src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${index + 1}.png`} alt="pokemon"/>
-                            </a>
-                            <Card key="{pokemon.name}" pokemon={pokemon}></Card>
-                            <h5 className="card-title">{pokemon.name}</h5>
-                            <h6 className="card-subtitle mb-2 text-muted">
-                                <p>Pokemon abilities:</p>
-                                {pokemon.abilities.map((ability, index) => (
-                                    <p key={index}>{ability.ability.name}</p>
-                                ))}
-                            </h6>
-                            <button className="btn btn-danger" onClick={() => addTofav(pokemon)}>Add to favorites</button>
+                                <a href={pokemon.url}>
+                                    <img src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${index + 1}.png`} alt="pokemon"/>
+                                </a>
+                                <Card key="{pokemon.name}" pokemon={pokemon}></Card>
+                                <h5 className="card-title">{pokemon.name}</h5>
+                                <h6 className="card-subtitle mb-2 text-muted">
+                                    <p>Pokemon abilities:</p>
+                                </h6>
+                                <button className="btn btn-danger" onClick={() => addTofav(pokemon)}>Add to favorites</button>
                             </div>
                         </div>
                         ))}
