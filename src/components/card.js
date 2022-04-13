@@ -23,6 +23,7 @@ export const Card = ({ pokemon }) => {
     return (
         <div className="card-continer">
             <a href={`https://www.pokemon.com/us/pokedex/${pokemon.name}`} target="_blank" rel="noreferrer">Read about {pokemon.name}</a>
+            <p>Pokemon abilities:</p>
             <ul>
                 {pokemonAbilties.map((ability) => (
                     <li key={ability.ability.name}>{ability.ability.name}</li>
