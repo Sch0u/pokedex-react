@@ -25,6 +25,7 @@ export const Pokemons = () => {
     }
     function removeFromFav(pokemon) {
         const newFavorites = favorites.filter(fav => fav.name !== pokemon.name);
+        setFavorites(newFavorites);
         console.log(newFavorites, favorites);
     }
 
