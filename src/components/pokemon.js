@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Card } from './card';
+import { PokemonCard } from './pokemonCard';
+import logo from '../assets/logo-pixel.gif';
 
 export const Pokemons = () => {
     const [pokemons, setPokemons] = useState([]);
+    const [favorites, setFavorites] = useState([]);
 
     useEffect(() => {
         async function loadPokemons() {
@@ -18,36 +20,32 @@ export const Pokemons = () => {
         });
     }, []);
 
-    function addTofav(pokemon) {
-        return null;
+    function addToFav(pokemon) {
+        setFavorites(favorites.concat(pokemon));
+    }
+    function removeFromFav(pokemon) {
+        const newFavorites = favorites.filter(fav => fav.name !== pokemon.name);
+        console.log(newFavorites, favorites);
     }
 
     return (
-        <div>
+        <div>   
             <center>
-                 <h1> Pokemons</h1> 
+                 <img src={logo} alt="logo" />
             </center>
             <div className="container-fluid">
                 <div className="row">
                     <div className="col-md-6">
-                    {pokemons.map((pokemon, index) => (
-                        <div className="card" key={index}>
-                            <div className="card-body">
-                                <a href={pokemon.url}>
-                                    <img src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${index + 1}.png`} alt="pokemon"/>
-                                </a>
-                                <Card key="{pokemon.name}" pokemon={pokemon}></Card>
-                                <h5 className="card-title">{pokemon.name}</h5>
-                                <h6 className="card-subtitle mb-2 text-muted">
-                                    <p>Pokemon abilities:</p>
-                                </h6>
-                                <button className="btn btn-danger" onClick={() => addTofav(pokemon)}>Add to favorites</button>
-                            </div>
-                        </div>
+                        <h2>Pokemons:</h2>
+                            {pokemons.map((pokemon, index) => (
+                            <PokemonCard key={index} pokemon={pokemon} onAddToFavorite={addToFav}></PokemonCard>
                         ))}
                     </div> 
                     <div className="col">
-                        <h2>Favorite list</h2>
+                        <h2>Favorite list:</h2>
+                            {favorites.map((pokemon, index) => (
+                            <PokemonCard key={index} pokemon={pokemon} onRemoveFromFavorite={removeFromFav}></PokemonCard>
+                        ))}
                     </div>
                 </div>
             </div>
