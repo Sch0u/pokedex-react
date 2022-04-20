@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react'
 export const PokemonCard = ({ pokemon, onAddToFavorite, onRemoveFromFavorite }) => {
     const [pokemonProps, setPokemonProps] = useState();
 
+    // useEffect to fetch the data from the API
     useEffect(() => {
         async function loadPokemonProps() {
             const response = await fetch(pokemon.url);
@@ -31,6 +32,7 @@ export const PokemonCard = ({ pokemon, onAddToFavorite, onRemoveFromFavorite }) 
                 </h6>
                 <div className="card-continer">
                     <ul>
+                        {/* Mapping of the pokemons abilities */}
                         {pokemonProps.abilities.map((ability) => (
                          <li key={ability.ability.name}>{ability.ability.name}</li>
                         ))}
